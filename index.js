@@ -25,4 +25,24 @@ app.post("/signup", (req, res) => {
   });
 });
 
+app.post("/me", (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ error: "token is required" });
+  if (!(token in DIARY)) return res.status(400).json({ error: "Invalid token" });
+
+  const entry = DIARY[token];
+
+  return res.status(200).json({ data: entry });
+});
+
+app.post("/private-data", (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ error: "token is required" });
+  if (!(token in DIARY)) return res.status(400).json({ error: "Invalid token" });
+
+  const entry = DIARY[token];
+
+  return res.status(200).json({ privateData: "Access  Granted" });
+});
+
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
